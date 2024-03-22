@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  dev-dude-locater-db:
+    image: postgres
+    restart: always
+    container_name: dev-dude-locater-db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+
+volumes:
+  postgres:
