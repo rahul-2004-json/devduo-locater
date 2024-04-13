@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { createRoomAction } from "./action";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -20,11 +20,11 @@ const formSchema = z.object({
   name: z.string().min(1).max(50),
   description: z.string().min(10).max(100),
   githubRepo: z.string().min(10).max(100),
-  language: z.string().min(1).max(100),
+  tags: z.string().min(1).max(100),
 });
 
 export function CreateRoomForm() {
-    const router = useRouter();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,7 +32,7 @@ export function CreateRoomForm() {
       name: "",
       description: "",
       githubRepo: "",
-      language: "",
+      tags: "",
     },
   });
 
@@ -67,7 +67,10 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder="working on a next.js stack project"
+                />
               </FormControl>
               <FormDescription>
                 Describe about your topic for coding
@@ -84,7 +87,10 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Github Repo</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder="https://github.com/yourname-json/repository-name"
+                />
               </FormControl>
               <FormDescription>
                 Please provide your github repo link
@@ -96,15 +102,15 @@ export function CreateRoomForm() {
 
         <FormField
           control={form.control}
-          name="language"
+          name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Programming Language</FormLabel>
+              <FormLabel>Tags</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                Programming language that you gonna work with
+                Tell about specific languages you want to work on
               </FormDescription>
               <FormMessage />
             </FormItem>

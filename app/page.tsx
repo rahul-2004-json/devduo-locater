@@ -3,6 +3,9 @@ import { db } from "@/db";
 import Image from "next/image";
 import Link from "next/link";
 import { Github } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { TagsList } from "@/components/ui/tags-list";
+import { splitTags } from "@/components/ui/tags-list";
 import {
   Card,
   CardContent,
@@ -15,13 +18,14 @@ import { Room } from "@/db/schema";
 import { getRooms } from "@/data-access/rooms";
 
 function RoomCard({ room }: { room: Room }) {
+  const tags = room.tags.split(",").map((tag) => tag.trim());
   return (
     <Card>
       <CardHeader>
         <CardTitle>{room.name}</CardTitle>
         <CardDescription>{room.description}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
         {room.githubRepo && (
           <Link
             href={room.githubRepo}
@@ -34,6 +38,7 @@ function RoomCard({ room }: { room: Room }) {
             Github Repository
           </Link>
         )}
+        <TagsList tags={splitTags(room.tags)} />
       </CardContent>
       <CardFooter>
         <Button asChild>
