@@ -67,13 +67,16 @@ export const verificationTokens = pgTable(
 );
 
 export const room = pgTable("room", {
-  id: uuid('id').default(sql`gen_random_uuid()`).notNull().primaryKey(),
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .notNull()
+    .primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
-  language: text("language").notNull(),
+  tags: text("tags").notNull(),
   githubRepo: text("githubRepo"),
 });
 
