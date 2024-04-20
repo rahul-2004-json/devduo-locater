@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
+import { useEffect } from "react";
 
 
 
@@ -25,14 +26,20 @@ const formSchema = z.object({
 export function SearchBar(){
   const router = useRouter();
   const query= useSearchParams();
-    const form = useForm<z.infer<typeof formSchema>>({
+
+  const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
          search:query.get("search") ?? "",
         },
-      });
+  });
     
-      async function onSubmit(values: z.infer<typeof formSchema>) {
+  const search = query.get("search");
+  useEffect(() => {
+    form.setValue("search", query.get("search") ?? "");
+  },[search,form]);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
         if(values.search){
           router.push(`/?search=${values.search}`);  
         }else{

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TagsList } from "@/components/ui/tags-list";
-import { splitTags } from "@/components/ui/tags-list";
+import { splitTags } from "@/lib/utils";
 import { DevLocater } from "./video-player";
 
 export default async function RoomPage(props: { params: { roomid: string } }) {
