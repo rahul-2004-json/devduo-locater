@@ -31,7 +31,7 @@ export default async function RoomPage(props: { params: { roomid: string } }) {
             <Link
               href={room.githubRepo}
               className="flex items-center gap-2 mt-2 self-center text-sm"
-              // Useed target and rel to open link in new tab
+              // Used target and rel to open link in new tab
               target="_blank"
               rel="noopener noreferrer"
             >

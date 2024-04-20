@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/card";
 import { Room } from "@/db/schema";
 import { getRooms } from "@/data-access/rooms";
+import { SearchBar } from "./search-bar";
+
+
 
 function RoomCard({ room }: { room: Room }) {
   const tags = room.tags.split(",").map((tag) => tag.trim());
@@ -49,9 +52,10 @@ function RoomCard({ room }: { room: Room }) {
   );
 }
 
-export default async function Home() {
+export default async function Home({searchParams}:{searchParams:{search: string}}) {
+  // console.log(searchParams.search);
   //here we have one layer of abstraction as our front code doesn't know from where are data is coming , it just calls the function
-  const rooms = await getRooms();
+  const rooms = await getRooms(searchParams.search);
   return (
     <main className="min-h-screen p-16">
       <div className="flex justify-between items-center mb-6">
@@ -60,7 +64,10 @@ export default async function Home() {
           <Link href="/create-room">Create Room</Link>
         </Button>
       </div>
-
+      <div className="mb-12">
+      <SearchBar />
+      </div>
+    
       <div className="grid grid-cols-3 gap-4">
         {rooms.map((room) => {
           return <RoomCard key={room.id} room={room} />;
