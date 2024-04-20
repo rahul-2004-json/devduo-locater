@@ -9,11 +9,13 @@ import {
   StreamTheme,
   SpeakerLayout,
   CallControls,
+  CallParticipantsList,
   User,
 } from "@stream-io/video-react-sdk";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {generateTokenAction} from "@/app/rooms/[roomid]/action";
+import { generateTokenAction } from "@/app/rooms/[roomid]/action";
+import { useRouter } from "next/navigation";
 
 
 
@@ -22,6 +24,7 @@ export function DevLocater({ room }: { room: Room }) {
   const session = useSession();
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!room) {
@@ -36,8 +39,10 @@ export function DevLocater({ room }: { room: Room }) {
       apiKey,
       user: {
         id: userId, //each user will have unique id
+        name: session.data.user.name ?? undefined,
+        image: session.data.user.image ?? undefined,
       },
-      tokenProvider : () => generateTokenAction(),
+      tokenProvider: () => generateTokenAction(),
     });
     setClient(client);
     const call = client.call("default", room.id);
@@ -46,8 +51,10 @@ export function DevLocater({ room }: { room: Room }) {
 
     //when the method unmounts we leave call and disconnect client
     return () => {
-      call.leave();
-      client.disconnectUser();
+      call
+        .leave()
+        .then(() => client.disconnectUser())
+        .catch(console.error);
     };
   }, [session, room]);
   return (
@@ -57,7 +64,14 @@ export function DevLocater({ room }: { room: Room }) {
         <StreamTheme>
           <StreamCall call={call}>
             <SpeakerLayout />
-            <CallControls />
+            <CallControls
+              onLeave={() => {
+                router.push("/")
+              }}
+            />
+            <CallParticipantsList
+              onClose={() => undefined}
+            />
           </StreamCall>
         </StreamTheme>
       </StreamVideo>
