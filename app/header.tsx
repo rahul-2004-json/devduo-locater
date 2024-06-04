@@ -18,6 +18,7 @@ import Link from "next/link";
 function AccountDropdown() {
   const session = useSession();
   const isloggedin = !!session.data;
+  console.log(session.data?.user?.image);
 
   return (
     <DropdownMenu>
