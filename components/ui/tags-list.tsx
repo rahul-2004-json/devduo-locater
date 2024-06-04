@@ -8,7 +8,7 @@ import { badgeVariants } from "./badge";
 export function TagsList({ tags }: { tags: string[] }) {
   const router = useRouter();
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex gap-2 flex-wrap mt-4">
       {tags.map((tag) => (
         <button  
         onClick={() => {
