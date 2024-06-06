@@ -4,6 +4,7 @@ import { getRooms } from "@/data-access/rooms";
 import { SearchBar } from "./search-bar";
 import { RoomCard } from "./room-card";
 import { unstable_noStore } from "next/cache";
+import Image from "next/image";
 
 
 export default async function Home({searchParams}:{searchParams:{search: string}}) {
@@ -28,6 +29,21 @@ export default async function Home({searchParams}:{searchParams:{search: string}
           return <RoomCard key={room.id} room={room} />;
         })}
       </div>
+
+      {rooms.length === 0 && (
+        <div className="flex flex-col gap-5 justify-center items-center mt-24 ">
+         <Image 
+         src="/no_data.svg" 
+         alt="no data image"
+         width="200"
+         height="200"
+         />
+         <h2 className="text-2xl">Oops! No rooms yet</h2>
+         <Button asChild>
+          <Link href="/create-room">Create Room</Link>
+        </Button>
+        </div>
+      )}
     </main>
   );
 }
