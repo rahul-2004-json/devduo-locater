@@ -1,7 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Github, TrashIcon } from "lucide-react";
+import { Github, PencilIcon, TrashIcon } from "lucide-react";
 import { TagsList } from "@/components/ui/tags-list";
 import { splitTags } from "@/lib/utils";
 import {
@@ -34,7 +34,12 @@ export function UserRoomCard({ room }: { room: Room }) {
   const tags = room.tags.split(",").map((tag) => tag.trim());
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="relative">
+       <Button className="absolute top-2 right-2" size="icon">
+        <Link href={`/edit-room/${room.id}`}>
+        <PencilIcon/>
+        </Link>
+       </Button>
         <CardTitle>{room.name}</CardTitle>
         <CardDescription>{room.description}</CardDescription>
       </CardHeader>
