@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 export function CreateRoomForm() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,8 +40,12 @@ export function CreateRoomForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     //TODO:invoking server action to store data in database
-    await createRoomAction(values);
-    router.push("/");
+    const room =await createRoomAction(values);
+    toast({
+      title: "Room Created",
+      description: "Your room has been created successfully!",
+    });
+    router.push(`/rooms/${room.id}`);
   }
 
   return (

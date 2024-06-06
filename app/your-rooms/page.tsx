@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getUserRooms } from "@/data-access/rooms";
 import { UserRoomCard } from "./user-room-card";
 import { unstable_noStore } from "next/cache";
-
+import Image from "next/image";
 
 export default async function YourRoomsPage({searchParams}:{searchParams:{search: string}}) {
   unstable_noStore();
@@ -22,6 +22,21 @@ export default async function YourRoomsPage({searchParams}:{searchParams:{search
           return <UserRoomCard key={room.id} room={room} />;
         })}
       </div>
+
+      {rooms.length === 0 && (
+        <div className="flex flex-col gap-5 justify-center items-center mt-24">
+         <Image 
+         src="/no_data.svg" 
+         alt="no data image"
+         width="200"
+         height="200"
+         />
+         <h2 className="text-2xl">You have no rooms yet!</h2>
+         <Button asChild>
+          <Link href="/create-room">Create Room</Link>
+        </Button>
+        </div>
+      )}
     </main>
   );
 }

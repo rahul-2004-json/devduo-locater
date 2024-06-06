@@ -9,10 +9,6 @@ import {
 import type { AdapterAccount } from "@auth/core/adapters";
 import { sql } from "drizzle-orm";
 
-export const testing = pgTable("testing", {
-  id: text("id").primaryKey().notNull(),
-  fullname: text("full_name"),
-});
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
